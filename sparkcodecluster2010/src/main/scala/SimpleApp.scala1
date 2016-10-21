@@ -1,0 +1,34 @@
+package org.apache.spark.examples.streaming
+/* SimpleApp.scala */
+
+import org.apache.spark.SparkContext
+import org.apache.spark.SparkContext._
+import org.apache.spark.SparkConf
+import com.prat._
+import java.util.Properties
+import java.util._
+
+object SimpleApp {
+  def main(args: Array[String]) {
+    val logFile = "hdfs://localhost:9000/pxd141930/input/testfile.txt" // Should be some file on your system
+    val conf = new SparkConf().setAppName("Simple Application")
+
+    val sc = new SparkContext(conf)
+    val logData = sc.textFile(logFile, 2).cache()
+    val numAs = logData.filter(line => line.contains("a")).count()
+    val numBs = logData.filter(line => line.contains("b")).count()
+    println("Lines with a: %s, Lines with b: %s".format(numAs, numBs))
+
+   val cmap= new CuckooHashMap[Integer,ArrayList[Integer]]
+   val obj1 = new CuckooObj(cmap)
+   obj1.changeValue(1,102)
+   obj1.changeValue(1,103)
+   val obj2 =  new CuckooObj(cmap)
+   obj2.changeValue(1,104)
+   obj1.changeValue(1,105)
+   println("obj1 val is %d".format(obj1.getValue(1)))
+   println("obj2 val is %d".format(obj2.getValue(1)))
+
+  }
+}
+
