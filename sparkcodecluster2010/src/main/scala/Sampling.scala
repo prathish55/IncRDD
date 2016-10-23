@@ -61,26 +61,11 @@ object Sampling {
 	h = h.update(h.first()._1,"hello")
 	
 	//}
-	h.take(h.count().toInt).foreach( l => { myRDD = myRDD.add(l._1,l._2)
-					h= h.update(l._1,"abc") } )
+	h.take(h.count().toInt).foreach( line => { myRDD = myRDD.add(line._1,line._2)
+					h= h.update(line._1,"abc") } )
 	h.saveAsTextFile("hdfs://localhost:9000/pxd141930_s/")	
-        /*
-	h..foreach(ret => { 
-			//val ret = PrepareToSplit(l)
-			//println(ret._1,ret._2)
-			myRDD = myRDD.add(ret._1,ret._2)}
-		)
-			//.filter(new IsHeader()) //Skip the header line
-                        //Sample each file
-                       //.repartition(20)                       
-                        //Map to key-value pair  
-	*/                  
-        myRDD
-			//.repartitionAndSortWithinPartitions(
-                         //      new CustomPartitioner(noOfPartitions), //Partition the output as the original input
-                         //      new CustomComparator()) //Sort in ascending order by Year,Month and Day
-                       //.map(t->t._2) //Process just the value
-                       .saveAsTextFile(outputPath); //Write to file
+                      
+        myRDD.saveAsTextFile(outputPath); //Write to file
 
       
     }
