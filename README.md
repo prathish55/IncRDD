@@ -1,6 +1,6 @@
 # IncRDD
 #IncRDD is a new custom RDD, created to accept and process the incremental updates of the real-time data. 
-#We also provide a few APIs to the application programmer to make updates to RDD elements. This includes add, update, and delete.
+//We also provide a few APIs to the application programmer to make updates to RDD elements. This includes add, update, and delete.
 
 Example:
 
