@@ -9,9 +9,7 @@ import org.apache.spark.rdd.RDD
 import incrdd.IncRDD
 
 object SimpleApp {
-
  def main(args: Array[String]) {
- 
     val conf = new SparkConf().setAppName("Simple Application")
     val sc = new SparkContext(conf)
     
