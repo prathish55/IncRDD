@@ -10,7 +10,7 @@ import incrdd.IncRDD
 
 object SimpleApp {
 
-  def main(args: Array[String]) {
+ def main(args: Array[String]) {
   
     val conf = new SparkConf().setAppName("Simple Application")
     val sc = new SparkContext(conf)
@@ -18,7 +18,7 @@ object SimpleApp {
     val rdd = sc.parallelize((1 to 100000).map(x => (x.toLong,0)))   
     val inrRDD= IncRDD(rdd).cache()                 //Incremental RDD
 
-    var in3 = inrRDD.add(10001L,55)
+    var incup = inrRDD.add(10001L,55)
     for( x <- 100002L until 100002+l) { 
       incup=incup.add(x,55)
     }
