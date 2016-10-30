@@ -5,7 +5,9 @@ We also provide a few APIs to the application programmer to make updates to RDD 
 Example:
 
 import com.prat._
+
 import org.apache.spark.rdd.RDD
+
 import incrdd.IncRDD
 
 object SimpleApp {
