@@ -27,14 +27,7 @@ extends RDD[(K, V)](newRDD.context,List(new OneToOneDependency(newRDD))) {
     override def compute(split: Partition, context: TaskContext): Iterator[(K, V)] = {
 	firstParent[IncrRDDPartition[K, V]].iterator(split, context).next.iterator
     } 
-/*
-@throws(classOf[IOException])
-  private def writeObject(oos: ObjectOutputStream): Unit = {
-    // Update the reference to parent split at the time of task serialization
-    var parentPartition = newRDD.partitions
-    oos.defaultWriteObject()
-}
-*/
+
     override protected def getPreferredLocations(s: Partition): Seq[String] =
 	newRDD.preferredLocations(s)
 
@@ -120,10 +113,13 @@ extends RDD[(K, V)](newRDD.context,List(new OneToOneDependency(newRDD))) {
 object IncRDD {
 
     // constructs a mutable RDD 
+    // apply method is called when IncRDD is called with arguement as some existing RDD of <K,V> pairs
+    //
     def apply[K: ClassTag , V: ClassTag](elems: RDD[(K, V)]): IncRDD[K, V] = 
 	updatable[K, V, V](elems, (id, a) => a, (id, a, b) => b)
 
     // constructs the IncRDD from an RDD of partitions
+    // this method converts RDD to IncRDD.
     //
     def updatable[K: ClassTag,  U: ClassTag, V: ClassTag]
       (elements: RDD[(K, U)], oldfunc: (K, U) => V, func: (K, V, U) => V)
@@ -132,6 +128,8 @@ object IncRDD {
         if (elements.partitioner.isDefined) elements
         else elements.partitionBy(new HashPartitioner(elements.partitions.size))
 
+	// For every partition, map the iterator to Iterator of IncrementalPartition
+	//
         val newPartitions = partElements.mapPartitions[IncrRDDPartition[K, V]](
             iter => Iterator(IncrementalPartition(iter, oldfunc, func)),
             preservesPartitioning = true)
