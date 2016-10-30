@@ -26,7 +26,6 @@ object SimpleApp {
 }
 
 
-
 Compile spark code :
 ./sbt/bin/sbt clean
 ./sbt/bin/sbt package
